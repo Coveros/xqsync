@@ -473,6 +473,11 @@ public class Session implements com.marklogic.xcc.Session {
         return session.getTransactionTimeout();
     }
 
+    @Override
+    public int getCachedTxnTimeout() {
+        return 30;
+    }
+
     /**
      * <p>
      * Returns an instance of the XAResource interface, specific to this Session object.

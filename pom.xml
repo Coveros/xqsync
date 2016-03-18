@@ -46,7 +46,7 @@
 		<maven.jdepend.version>2.0</maven.jdepend.version>
 		<dependency.check.maven.version>1.2.5</dependency.check.maven.version>
 
-		<marklogic.xcc.version>6.0.2</marklogic.xcc.version>
+		<marklogic.xcc.version>8.0.4</marklogic.xcc.version>
 		<xstream.version>1.4.3</xstream.version>
 		<xpp3.version>1.1.4c</xpp3.version>
 
@@ -74,6 +74,13 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>2.3.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
