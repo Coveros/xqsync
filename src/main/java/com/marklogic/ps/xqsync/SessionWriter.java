@@ -28,6 +28,8 @@ import java.security.MessageDigest;
 
 import com.marklogic.ps.Session;
 import com.marklogic.ps.Utilities;
+import com.marklogic.ps.XccProperties;
+import com.marklogic.ps.xccproperties.XccPropertiesMarshaller;
 import com.marklogic.xcc.Request;
 import com.marklogic.xcc.ResultItem;
 import com.marklogic.xcc.ResultSequence;
@@ -57,6 +59,7 @@ public class SessionWriter extends AbstractWriter {
     protected String query = null;
 
     protected int maxRetries = 3;
+    private XccPropertiesMarshaller xccPropMarshaller = new XccPropertiesMarshaller();
 
    /**
      * @param _configuration
@@ -289,11 +292,22 @@ public class SessionWriter extends AbstractWriter {
 
                         String properties = _metadata[i].getProperties();
                         if (null != properties) {
-                            try {
-                                System.out.println(">>> setting properties for " + _outputUri[i]);
-                                session.setDocumentProperties(_outputUri[i], properties);
-                            } catch (Exception e) {
-                                logger.logException("exception when setting properties", e);
+
+                            XccProperties props = xccPropMarshaller.unmarshall(properties);
+                            props.removeSystemProps();
+
+                            if ( props.props.size() > 0 ) {
+                                try {
+
+                                    properties = xccPropMarshaller.marshall(props);
+
+                                    System.out.println(">>> setting properties for " + _outputUri[i]);
+                                    session.setDocumentProperties(_outputUri[i], properties);
+                                } catch (Exception e) {
+                                    logger.logException("exception when setting properties", e);
+                                }
+                            }else {
+                                System.out.println("Not setting properties for " + _outputUri[i]);
                             }
                         }
                     }
